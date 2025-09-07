@@ -1,0 +1,37 @@
+[Variables]
+abs_0_4_stored_z = 0.0
+active_toolhead = 'SwitchFly'
+last_z_offset_petg_0_4_t0 = 0.15
+pause_state = 'none'
+petg_0_4_stored_z = 0.0
+pla_0_4_stored_z = 0.0
+set_material_accel = 2000.0
+set_material_bed_temp = 65
+set_material_extruder_count = 1
+set_material_extruder_current = '0.6'
+set_material_extruder_index = 0
+set_material_extruder_temp = 210
+set_material_fan_speed = 0.5
+set_material_last_z_offset = 0.0
+set_material_load_length = 10
+set_material_load_speed = 200
+set_material_load_wait = 0
+set_material_material = 'PLA'
+set_material_nozzle_key = 'PLA_0_4'
+set_material_nozzle_size = 0.4
+set_material_purge_length = 45
+set_material_purge_wait = 0
+set_material_square_corner_velocity = 5.0
+set_material_stepper_x_current = '0.8'
+set_material_stepper_y_current = '0.8'
+set_material_stepper_z_current = '1.0'
+set_material_tool_type = 'DEPOSITION'
+set_material_toolhead = 'BlockOne'
+set_material_z_offset = 0.1
+test = 'test_string'
+toolhead_count = 1
+toolheads = {'BlockOne': {'type': '3D_PRINT', 'materials': {'PLA_0.4': {'extruder_temp': 200, 'bed_temp': 60, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.4, 'fan_speed': 0.5}, 'ABS_0.4': {'extruder_temp': 230, 'bed_temp': 70, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.4, 'fan_speed': 0.3}, 'ASA_0.4': {'extruder_temp': 240, 'bed_temp': 80, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.4, 'fan_speed': 0.3}, 'PETG_0.4': {'extruder_temp': 230, 'bed_temp': 70, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.4, 'fan_speed': 0.4}, 'PLA_0.8': {'extruder_temp': 205, 'bed_temp': 60, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.8, 'fan_speed': 0.5}, 'ABS_0.8': {'extruder_temp': 235, 'bed_temp': 70, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.8, 'fan_speed': 0.3}, 'ASA_0.8': {'extruder_temp': 245, 'bed_temp': 80, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.8, 'fan_speed': 0.3}, 'PETG_0.8': {'extruder_temp': 235, 'bed_temp': 70, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 1, 'nozzle_size': 0.8, 'fan_speed': 0.4}}}, 'SwitchFly': {'type': '3D_PRINT', 'materials': {'PLA_0.4': {'extruder_temp': 200, 'bed_temp': 60, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.4, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.5}, 'ABS_0.4': {'extruder_temp': 230, 'bed_temp': 70, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.4, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.3}, 'ASA_0.4': {'extruder_temp': 240, 'bed_temp': 80, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.4, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.3}, 'PETG_0.4': {'extruder_temp': 230, 'bed_temp': 70, 'z_offset': 0.1, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.4, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.4}, 'PLA_0.8': {'extruder_temp': 205, 'bed_temp': 60, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.8, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.5}, 'ABS_0.8': {'extruder_temp': 235, 'bed_temp': 70, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.8, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.3}, 'ASA_0.8': {'extruder_temp': 245, 'bed_temp': 80, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.8, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'fan_speed': 0.3}, 'PETG_0.8': {'extruder_temp': 235, 'bed_temp': 70, 'z_offset': 0.2, 'accel': 2000.0, 'extruder_count': 2, 'nozzle_size': 0.8, 'load_length': 10.0, 'load_speed': 50, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000}}}, 'Laser': {'type': 'LASER', 'materials': {'WOOD': {'power': 40.0, 'speed': 300.0, 'passes': 1, 'z_offset': 2.0, 'fan_speed': 0.0}, 'ACRYLIC': {'power': 90.0, 'speed': 5.0, 'passes': 2, 'z_offset': 2.0, 'fan_speed': 0.0}, 'LEATHER': {'power': 30.0, 'speed': 400.0, 'passes': 1, 'z_offset': 2.0, 'fan_speed': 0.0}, 'PAPER': {'power': 20.0, 'speed': 500.0, 'passes': 1, 'z_offset': 2.0, 'fan_speed': 0.0}, 'ALUMINUM': {'power': 60.0, 'speed': 200.0, 'passes': 1, 'z_offset': 2.0, 'fan_speed': 0.0}}}}
+toolheads.custom_3d_print_1 = {'type': '3D_PRINT', 'materials': {'HIPS_0.4': {'z_offset': 0.0, 'accel': 2000.0, 'power': 100.0, 'stepper_x_current': 1.0, 'stepper_y_current': 1.0, 'stepper_z_current': 1.0, 'nozzle_size': 0.4, 'extruder_current': 0.5, 'square_corner_velocity': 3.0, 'extruder_count': 1}}}
+toolheads.custom_print_tool = {'type': '3D_PRINT', 'materials': {'ABS_0.4': {'z_offset': 0.1, 'accel': 2400.0, 'extruder_temp': 235.0, 'bed_temp': 70.0, 'fan_speed': 0.3, 'nozzle_size': 0.4, 'load_length': 11.0, 'load_speed': 50.0, 'load_wait': 1000, 'purge_length': 12.0, 'purge_wait': 2000, 'extruder_count': 1}}}
+toolheads_blockone_saved_material = 'PLA_0.4'
+
