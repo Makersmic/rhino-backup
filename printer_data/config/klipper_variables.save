@@ -2,6 +2,7 @@
 abs_0_4_stored_z = 0.0
 active_toolhead = 'SwitchFly'
 last_z_offset_petg_0_4_t0 = 0.15
+material_z_offset_petg_0_4 = 0.0
 pause_state = 'none'
 petg_0_4_stored_z = 0.0
 pla_0_4_stored_z = 0.0
