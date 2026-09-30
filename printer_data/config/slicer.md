@@ -59,20 +59,29 @@ def index():
 def create():
     name = request.form.get("name")
     pin = request.form.get("pin")
-    
+
+    # Guard against missing form data
+    if not name or not pin:
+        return "Error: Toolhead name and pin are required.", 400
+
+    # Sanitize name a bit (alphanumeric + underscore only is safest for filenames/macros)
+    safe_name = "".join(c for c in name if c.isalnum() or c in ("_", "-")).strip()
+    if not safe_name:
+        return "Error: Invalid toolhead name.", 400
+
     # Ensure directory exists
-    if not os.path.exists(TOOLHEADS_DIR):
-        os.makedirs(TOOLHEADS_DIR)
-        
+    os.makedirs(TOOLHEADS_DIR, exist_ok=True)
+
     # Write the new unique file to your toolheads directory automatically
-    file_path = os.path.join(TOOLHEADS_DIR, f"{name.lower()}.cfg")
+    file_path = os.path.join(TOOLHEADS_DIR, f"{safe_name.lower()}.cfg")
     with open(file_path, "w") as f:
-        f.write(f"# Automated capability file for {name}\n")
-        f.write(f"[gcode_macro CUSTOM_TOOL_{name.upper()}]\n")
-        f.write(f"variable_assigned_pin: \"{pin}\"\n")
-        
+        f.write(f"# Automated capability file for {safe_name}\n")
+        f.write(f"[gcode_macro CUSTOM_TOOL_{safe_name.upper()}]\n")
+        f.write(f'variable_assigned_pin: "{pin}"\n')
+
     # Trigger a clean moonraker firmware restart command
     os.system("curl -X POST http://localhost:7125/printer/firmware_restart")
+
     return "Profile written! Klipper is restarting to register your new dropdown configurations..."
 
 if __name__ == "__main__":
