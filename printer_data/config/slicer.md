@@ -1,4 +1,4 @@
-# klipper_parser.py - Audited Config Parser Engine
+# klipper_parser.py - Fixed Core File Engine
 import os
 import re
 
