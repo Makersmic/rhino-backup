@@ -1,6 +1,6 @@
 .env
 secrets.conf
-.routes.py.swp
+.app.py.swp
 *.tmp
 printer-[0-9]*_[0-9]*.cfg
 *.bak
