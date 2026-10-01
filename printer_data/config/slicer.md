@@ -1,7 +1,6 @@
-# rhino_portal.py - Upgraded Capability Provisioning Portal for the Rhino System
-from flask import Flask, render_template_string, request, redirect
+# rhino_portal.py - Complete Unified Slicer, Toolhead & Asset Management Center
+from flask import Flask, render_template_string, request, redirect, url_for
 import os
-import re
 
 app = Flask(__name__)
 
@@ -9,12 +8,24 @@ app = Flask(__name__)
 CONFIG_DIR = os.path.expanduser("~/printer_data/config")
 CONFIG_PATH = os.path.join(CONFIG_DIR, "printer.cfg")
 TOOLHEADS_DIR = os.path.join(CONFIG_DIR, "toolheads")
+UPLOAD_FOLDER = os.path.join(CONFIG_DIR, "tool_images")
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+# Structural Whitelist for 21-pin umbilical available channels
+UMBILICAL_WHITELIST = ["PE0", "PE1", "PE2", "PE3", "PF4", "PB0", "PB1", "PC0", "PC1"]
 
 def get_detailed_pin_map():
-    """Scans printer.cfg and included files to map out exactly what is using each pin"""
-    pin_map = {}
+    """Scans printer.cfg and includes to group pinned assets by functional headers"""
+    grouped_map = {
+        "📊 STEPPER DRIVES": [],
+        "🔥 HEATING & COOLING": [],
+        "🔌 SYSTEM SIGNALS & ENDSTOPS": [],
+        "🛠️ CUSTOM TOOLING CHANNELS": []
+    }
     
-    # Simple recursive scanner to capture main config plus loose include files
     files_to_scan = [CONFIG_PATH]
     if os.path.exists(CONFIG_PATH):
         with open(CONFIG_PATH, "r") as f:
@@ -34,112 +45,124 @@ def get_detailed_pin_map():
                 line = line.strip()
                 if not line or line.startswith("#"):
                     continue
-                # Detect configuration blocks
                 if line.startswith("[") and line.endswith("]"):
                     current_section = line[1:-1]
                 elif "pin:" in line:
-                    param = line.split(":")[0].strip()
-                    raw_pin = line.split(":")[-1].strip().split("#")[0].strip()
-                    # Strip Klipper hardware modifiers (! inverted, ^ pullup)
+                    raw_parts = line.split(":")
+                    param = raw_parts[0].strip()
+                    raw_pin = raw_parts[-1].strip().split("#")[0].strip()
                     clean_pin = raw_pin.lstrip("!").lstrip("^").lstrip("~")
+                    
                     if clean_pin:
-                        pin_map[clean_pin] = "{} ({})".format(current_section, param)
-    return pin_map
+                        entry = {"pin": clean_pin, "desc": "{} ({})".format(current_section, param)}
+                        sec_lower = current_section.lower()
+                        if "stepper" in sec_lower or "tmc" in sec_lower:
+                            grouped_map["📊 STEPPER DRIVES"].append(entry)
+                        elif "heater" in sec_lower or "fan" in sec_lower or "temperature" in sec_lower:
+                            grouped_map["🔥 HEATING & COOLING"].append(entry)
+                        elif "custom_tool" in sec_lower or "spindle" in sec_lower or "laser" in sec_lower:
+                            grouped_map["🛠️ CUSTOM TOOLING CHANNELS"].append(entry)
+                        else:
+                            grouped_map["🔌 SYSTEM SIGNALS & ENDSTOPS"].append(entry)
+                            
+    return grouped_map
+
+def get_registered_tools():
+    """Reads written files inside toolheads/ to populate the visual library card panels"""
+    tools = []
+    if os.path.exists(TOOLHEADS_DIR):
+        for file in os.listdir(TOOLHEADS_DIR):
+            if file.endswith(".cfg"):
+                name = file[:-4]
+                path = os.path.join(TOOLHEADS_DIR, file)
+                tool_data = {"name": name, "template": "Unknown", "pin": "None", "pwm": "0", "osc": "0", "ext": "0"}
+                with open(path, "r") as f:
+                    for line in f:
+                        if "variable_base_template:" in line:
+                            tool_data["template"] = line.split(":")[-1].strip().strip('"')
+                        elif "variable_assigned_pin:" in line:
+                            tool_data["pin"] = line.split(":")[-1].strip().strip('"')
+                        elif "variable_capability_pwm:" in line:
+                            tool_data["pwm"] = line.split(":")[-1].strip()
+                        elif "variable_capability_oscillator:" in line:
+                            tool_data["osc"] = line.split(":")[-1].strip()
+                        elif "variable_capability_extruder:" in line:
+                            tool_data["ext"] = line.split(":")[-1].strip()
+                tools.append(tool_data)
+    return tools
+
+# Unified Mainsail Theme Master Stylesheet Overlay
+MAINSAIL_THEME = """
+<style>
+    :root { --bg-dark: #11111b; --bg-panel: #1e1e2e; --bg-surface: #313244; --accent: #89b4fa; --text: #cdd6f4; --text-muted: #a6adc8; --success: #a6e3a1; --error: #f38ba8; --warning: #f9e2af; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-dark); color: var(--text); margin: 0; padding: 0; display: flex; height: 100vh; }
+    .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid #45475a; display: flex; flex-direction: column; padding: 20px 0; box-sizing: border-box; }
+    .sidebar-brand { padding: 0 24px 20px; font-size: 1.25rem; font-weight: bold; color: var(--accent); border-bottom: 1px solid #313244; display: flex; align-items: center; gap: 10px; }
+    .sidebar-menu { list-style: none; padding: 20px 0 0 0; margin: 0; flex-grow: 1; }
+    .sidebar-item a { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: all 0.2s; }
+    .sidebar-item.active a, .sidebar-item a:hover { color: var(--text); background-color: var(--bg-surface); border-left: 4px solid var(--accent); padding-left: 20px; }
+    .main-content { flex-grow: 1; padding: 30px; overflow-y: auto; box-sizing: border-box; }
+    .page-header { font-size: 1.5rem; font-weight: 600; margin-bottom: 24px; color: var(--text); display: flex; justify-content: space-between; align-items: center; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .panel { background-color: var(--bg-panel); border: 1px solid #45475a; border-radius: 8px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .panel-title { font-size: 1.1rem; font-weight: bold; margin-top: 0; margin-bottom: 16px; color: var(--accent); border-bottom: 1px solid #313244; padding-bottom: 8px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    input[type="text"], select { width: 100%; padding: 10px; background-color: var(--bg-surface); color: var(--text); border: 1px solid #45475a; border-radius: 4px; box-sizing: border-box; font-size: 0.95rem; }
+    input[type="checkbox"] { width: auto; margin-right: 8px; transform: scale(1.1); }
+    .checkbox-container { background-color: var(--bg-dark); padding: 12px; border-radius: 4px; border: 1px solid #45475a; margin-top: 6px; }
+    .btn { display: inline-block; width: 100%; padding: 12px; background-color: var(--accent); color: var(--bg-dark); border: none; border-radius: 4px; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; box-sizing: border-box; transition: background 0.2s; }
+    .btn:hover { background-color: #a6e3a1; }
+    .badge { background-color: var(--bg-surface); border: 1px solid #585b70; color: var(--text); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-family: monospace; font-weight: bold; display: inline-block; }
+    .badge.active { background-color: var(--success); color: var(--bg-dark); border: none; }
+    .badge.empty { background-color: var(--text-muted); color: var(--bg-dark); border: none; }
+    .pin-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #313244; font-size: 0.9rem; }
+    .pin-row:last-child { border-bottom: none; }
+    .header-tag { font-size: 0.8rem; color: var(--accent); font-weight: bold; margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; }
+    .tool-card { background-color: var(--bg-panel); border: 1px solid #45475a; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .tool-thumb { width: 100%; height: 160px; background-color: var(--bg-dark); border-radius: 4px; border: 1px solid #313244; display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; }
+</style>
+"""
+
+NAV_PANEL = """
+<div class="sidebar">
+    <div class="sidebar-brand">🦏 Rhino OS</div>
+    <ul class="sidebar-menu">
+        <li class="sidebar-item {{'active' if page=='wizard'}}"><a href="/">🛠️ Provisioning Wizard</a></li>
+        <li class="sidebar-item {{'active' if page=='library'}}"><a href="/library">📚 Toolhead Library</a></li>
+    </ul>
+</div>
+"""
 
 @app.route("/")
 def index():
-    pin_map = get_detailed_pin_map()
-    
-    # Your 21-pin umbilical's designated hardware channels on your main board
-    umbilical_whitelist = ["PE0", "PE1", "PE2", "PE3", "PF4", "PB0", "PB1", "PC0", "PC1"]
-    available_pins = [p for p in umbilical_whitelist if p not in pin_map]
+    grouped_map = get_detailed_pin_map()
+    all_claimed = []
+    for cat in grouped_map:
+        for entry in grouped_map[cat]:
+            all_claimed.append(entry["pin"])
+            
+    available_pins = [p for p in UMBILICAL_WHITELIST if p not in all_claimed]
 
     html = """
     <html>
-    <head>
-        <title>Rhino Toolhead Provisioning Center</title>
-        <style>
-            body { font-family: sans-serif; margin: 40px; background: #1e1e2e; color: #cdd6f4; line-height: 1.5; }
-            .container { max-width: 900px; margin: 0 auto; background: #313244; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-            h1, h2, h3 { color: #f5c2e7; }
-            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-            .panel { background: #181825; padding: 20px; border-radius: 6px; border: 1px solid #45475a; }
-            .btn { padding: 10px 20px; background: #a6e3a1; color: #11111b; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
-            .btn:hover { background: #94e2d5; }
-            input, select { width: 100%; padding: 8px; background: #45475a; color: #cdd6f4; border: 1px solid #585b70; border-radius: 4px; box-sizing: border-box; }
-            .badge { background: #f38ba8; color: #11111b; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-family: monospace; }
-            .avail { background: #a6e3a1; }
-        </style>
-    </head>
+    <head><title>Rhino Dashboard</title>""" + MAINSAIL_THEME + """</head>
     <body>
-        <div class="container">
-            <h1>🔧 Rhino Toolhead Provisioning Center</h1>
-            <p>Unified Capability Wizard & Pin Collision Diagnostic Center</p>
-            <hr style="border-color: #45475a;" />
-
+        """ + NAV_PANEL.replace("{{'active' if page=='wizard'}}", "active") + """
+        <div class="main-content">
+            <div class="page-header"><div>🛠️ Provisioning Wizard</div></div>
             <div class="grid">
-                <!-- LEFT PANEL: THE CAPABILITY GENERATION WIZARD -->
                 <div class="panel">
-                    <h2>🛠️ Add New Toolhead Wizard</h2>
+                    <div class="panel-title">Add New Capability Profile</div>
                     <form action="/create" method="POST">
-                        <label><b>1. Toolhead Profile Name:</b></label><br/>
-                        <input type="text" name="name" placeholder="e.g., HotWire, NeedleCutter" required><br/><br/>
-                        
-                        <label><b>2. Select Base Template:</b></label><br/>
-                        <select name="template" id="template" onchange="toggleTemplateCapabilities()">
-                            <option value="subtractive">⚙️ Subtractive Template (CNC/Cutter Base)</option>
-                            <option value="additive">🧵 Additive Template (Extruder/3D Print Base)</option>
-                        </select><br/><br/>
-
-                        <label><b>3. Configure Hardware Capabilities:</b></label><br/>
-                        <div style="background:#313244; padding:10px; border-radius:4px; margin-top:5px;">
-                            <input type="checkbox" name="cap_pwm" value="1" style="width:auto;"> Modulated PWM Power Channel<br/>
-                            <input type="checkbox" name="cap_oscillator" value="1" style="width:auto;"> Reciprocating Oscillator Servo Loop<br/>
-                            <input type="checkbox" name="cap_extruder" value="1" style="width:auto;"> Synchronized Filament Drive Motor
-                        </div><br/>
-                        
-                        <label><b>4. Umbilical Pin Assignment (Collision Protected):</b></label><br/>
-                        <select name="pin">
-                            {% for p in available_pins %}
-                                <option value="{{p}}">{{p}} (Available)</option>
-                            {% endfor %}
-                        </select><br/><br/>
-
-                        <input type="submit" class="btn" value="📦 Write Configuration & Reboot">
-                    </form>
-                </div>
-
-                <!-- RIGHT PANEL: THE DETAILED PIN ASSET DICTIONARY Map -->
-                <div class="panel">
-                    <h2>🔍 Live Pin Assignment Registry</h2>
-                    <p>Scanned active pin asset mappings across your entire system profile tree:</p>
-                    <div style="max-height: 400px; overflow-y: auto; background: #11111b; padding: 15px; border-radius: 4px; font-size: 0.9em;">
-                        <h4 style="margin-top:0; color:#89b4fa;">🚫 LOCKED / CLAIMED CHANNELS:</h4>
-                        {% for pin, component in pin_map.items()|sort %}
-                            <div style="margin-bottom: 8px; border-bottom: 1px solid #313244; padding-bottom: 4px;">
-                                <span class="badge">{{ pin }}</span> ➡️ <span style="color: #a6adc8;">{{ component }}</span>
-                            </div>
-                        {% endfor %}
-                        
-                        <h4 style="margin-top:20px; color:#a6e3a1;">✅ OPEN UMBILICAL CHANNELS:</h4>
-                        {% for p in available_pins %}
-                            <div style="margin-bottom: 4px;"><span class="badge avail">{{ p }}</span> Ready for custom tool mapping</div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-    </html>
-    """
-    return render_template_string(html, pin_map=pin_map, available_pins=available_pins)
-
+                        <div class="form-group">
+                            <label>Toolhead Profile Name</label>
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form.get("name")
     template = request.form.get("template")
     pin = request.form.get("pin")
-    
     cap_pwm = request.form.get("cap_pwm", "0")
     cap_oscillator = request.form.get("cap_oscillator", "0")
     cap_extruder = request.form.get("cap_extruder", "0")
@@ -151,24 +174,33 @@ def create():
     file_path = os.path.join(TOOLHEADS_DIR, fn)
     
     with open(file_path, "w") as f:
-        f.write("# ====================================================================\n")
-        f.write("# 🛠️ AUTOMATED HARDWARE CAPABILITY PROFILE FOR {}\n".format(name.upper()))
-        f.write("# ====================================================================\n\n")
+        f.write("# Automated hardware capability profile for {}\n\n".format(name.upper()))
         f.write("[gcode_macro CUSTOM_TOOL_{}]\n".format(name.upper()))
-        f.write("variable_tool_name: \"{}\"\n".format(name))
-        f.write("variable_base_template: \"{}\"\n".format(template))
-        f.write("variable_assigned_pin: \"{}\"\n".format(pin))
+        f.write('variable_tool_name: "{}"\n'.format(name))
+        f.write('variable_base_template: "{}"\n'.format(template))
+        f.write('variable_assigned_pin: "{}"\n'.format(pin))
         f.write("variable_capability_pwm: {}\n".format(cap_pwm))
         f.write("variable_capability_oscillator: {}\n".format(cap_oscillator))
         f.write("variable_capability_extruder: {}\n\n".format(cap_extruder))
-        
         f.write("gcode:\n")
-        f.write("  # Automatically launch our unified capability wizard setup loop\n")
-        f.write("  GENERIC_CAPABILITY_SETUP NAME=\"{}\" FEED_RATE=600 CAP_PWM={} CAP_OSCILLATOR={}\n".format(name, cap_pwm, cap_oscillator))
+        f.write('  GENERIC_CAPABILITY_SETUP NAME="{}" FEED_RATE=600 CAP_PWM={} CAP_OSCILLATOR={}\n'.format(name, cap_pwm, cap_oscillator))
         
-    # Send an instant core firmware restart command to Moonraker to compile the new file
     os.system("curl -X POST http://localhost:7125/printer/firmware_restart")
-    return "Profile written to toolheads/{}.cfg successfully! Klipper is executing a firmware restart...".format(name.lower())
+    return redirect(url_for('library'))
+
+@app.route("/upload/<toolname>", methods=["POST"])
+def upload_file(toolname):
+    if 'file' in request.files:
+        file = request.files['file']
+        if file.filename != '':
+            filename = "{}.png".format(toolname)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return redirect(url_for('library'))
+
+@app.route("/images/<filename>")
+def get_image(filename):
+    from flask import send_from_directory
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
