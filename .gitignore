@@ -1,6 +1,6 @@
 .env
 secrets.conf
-.rhino_portal.py.swp
+*.swp
 *.tmp
 printer-[0-9]*_[0-9]*.cfg
 *.bak
