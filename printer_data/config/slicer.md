@@ -5,7 +5,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <title>Rhino OS // Capability Center</title>
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-mainsail: #111216;
@@ -115,3 +115,158 @@ HTML_TEMPLATE = """
                     {% endif %}
                     <details style="margin-bottom: 15px;">
                         <summary style="font-size: 0.8rem; color: var(--accent-mainsail); cursor: pointer; user-select: none;">Inspect Generated Klipper G-Code</summary>
+                        <pre class="macro-code">{{ tool.raw_macro }}</pre>
+                    </details>
+                    <div style="display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid var(--border-mainsail); padding-top: 15px;">
+                        <button class="btn-mainsail" style="flex: 1; background: #3a3b46;" onclick="openEditModal('{{ tool.id }}', '{{ tool.name }}', '{{ tool.template }}', '{{ tool.pin }}', '{{ tool.cap_pwm }}', '{{ tool.cap_oscillator }}', '{{ tool.cap_extruder }}', `{{ tool.notes }}`)">
+                            <i class="fas fa-edit"></i> Edit Tool
+                        </button>
+                        <a href="/delete/{{ tool.id }}" class="btn-mainsail btn-danger" style="text-decoration: none;" onclick="return confirm('Are you certain you want to purge this tool setup config?')">
+                            <i class="fas fa-trash"></i> Drop
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="diagnostics-view" class="view-section" style="display: none; margin-top: 20px;">
+            <h1 style="margin: 0 0 20px 0; font-size: 1.5rem; font-weight: 400;">Umbilical Harness Registry & Collision Map</h1>
+            <div class="card">
+                <h2><i class="fas fa-shield-halved" style="color:#ffb300; margin-right: 8px;"></i> Pin Resource Lock Registry Matrix</h2>
+                <div style="background: var(--bg-mainsail); border-radius: 4px; padding: 10px;">
+                    {% for pin, component in pin_map.items()|sort %}
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-mainsail);">
+                        <span><span class="badge" style="background:#d32f2f; margin-right: 15px;">LOCKED</span> <strong>{{ pin }}</strong></span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem;"><i class="fas fa-link"></i> Claimed By: {{ component }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <h2 style="margin-top:0;">🔧 Register New System Tool</h2>
+            <form action="/create" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Tool Head Identifier Name</label>
+                    <input type="text" name="name" placeholder="e.g. LaserCutter, AeroExtruder" required>
+                </div>
+                <div class="form-group">
+                    <label>Base Template Engine</label>
+                    <select name="template">
+                        <option value="subtractive">⚙️ Subtractive Model (CNC Kinematics Base)</option>
+                        <option value="additive">🧵 Additive Model (Extruder Core Print Base)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hardware Harness Capabilities</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-row"><input type="checkbox" name="cap_pwm" value="1"> PWM Modulated Signal Drive Channel</div>
+                        <div class="checkbox-row"><input type="checkbox" name="cap_oscillator" value="1"> Reciprocating Oscillator Loop Channel</div>
+                        <div class="checkbox-row"><input type="checkbox" name="cap_extruder" value="1"> Synchronized Extruder Stepper Node</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Designated Umbilical Channel Connection (Collision Protected)</label>
+                    <select name="pin">
+                        {% for p in available_pins %}
+                            <option value="{{p}}">{{p}} (Harness Available Status)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Operational Metadata Notes Library</label>
+                    <textarea name="notes" rows="3" placeholder="Enter calibration offsets..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Tool Machine Photos</label>
+                    <input type="file" name="photos" multiple accept="image/*">
+                </div>
+                <div style="display:flex; gap:10px; justify-content: flex-end; margin-top:20px;">
+                    <button type="button" class="btn-mainsail" style="background:#3a3b46;" onclick="closeModal('addModal')">Cancel</button>
+                    <button type="submit" class="btn-mainsail">Compile Config Asset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2 style="margin-top:0;">📝 Edit System Tool Configuration</h2>
+            <form id="editForm" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Tool Head Identifier Name</label>
+                    <input type="text" name="name" id="edit_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Base Template Engine</label>
+                    <select name="template" id="edit_template">
+                        <option value="subtractive">⚙️ Subtractive Model (CNC Kinematics Base)</option>
+                        <option value="additive">🧵 Additive Model (Extruder Core Print Base)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hardware Harness Capabilities</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-row"><input type="checkbox" name="cap_pwm" id="edit_cap_pwm" value="1"> PWM Modulated Signal Drive Channel</div>
+                        <div class="checkbox-row"><input type="checkbox" name="cap_oscillator" id="edit_cap_oscillator" value="1"> Reciprocating Oscillator Loop Channel</div>
+                        <div class="checkbox-row"><input type="checkbox" name="cap_extruder" id="edit_cap_extruder" value="1"> Synchronized Extruder Stepper Node</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Designated Umbilical Channel Connection</label>
+                    <select name="pin" id="edit_pin">
+                        {% for p in available_pins %}
+                            <option value="{{p}}">{{p}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Operational Metadata Notes Library</label>
+                    <textarea name="notes" id="edit_notes" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Append Additional Tool Machine Photos</label>
+                    <input type="file" name="photos" multiple accept="image/*">
+                </div>
+                <div style="display:flex; gap:10px; justify-content: flex-end; margin-top:20px;">
+                    <button type="button" class="btn-mainsail" style="background:#3a3b46;" onclick="closeModal('editModal')">Cancel</button>
+                    <button type="submit" class="btn-mainsail">Save Updates & Rewrite</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mainSidebar');
+            const workspace = document.getElementById('workspace');
+            sidebar.classList.toggle('active');
+            workspace.classList.toggle('shifted');
+        }
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function openSection(sectionId) {
+            document.querySelectorAll('.view-section').forEach(section => { section.style.display = 'none'; });
+            document.getElementById(sectionId).style.display = 'block';
+            if(window.innerWidth < 992) toggleSidebar();
+        }
+        function openEditModal(id, name, template, pin, pwm, osc, extruder, notes) {
+            document.getElementById('editForm').action = '/edit/' + id;
+            document.getElementById('edit_name').value = name;
+            document.getElementById('edit_template').value = template;
+            document.getElementById('edit_pin').value = pin;
+            document.getElementById('edit_notes').value = notes;
+            document.getElementById('edit_cap_pwm').checked = (pwm === '1');
+            document.getElementById('edit_cap_oscillator').checked = (osc === '1');
+            document.getElementById('edit_cap_extruder').checked = (extruder === '1');
+            openModal('editModal');
+        }
+        window.addEventListener('DOMContentLoaded', () => { if(window.innerWidth >= 1024) toggleSidebar(); });
+    </script>
+</body>
+</html>
+"""
