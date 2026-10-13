@@ -96,7 +96,9 @@
    ]
   },
   "b_printhead": {
-   "assigned": [],
+   "assigned": [
+    "tool:BlockOne"
+   ],
    "description": "Nozzle, hotend and extruder care for any print head.",
    "for": "tool",
    "name": "3D print head",
@@ -335,6 +337,57 @@
    "tools_needed": "",
    "type": "clean"
   },
+  "t28d9ce43": {
+   "anchor": "completion",
+   "asset": "tool:BlockOne",
+   "created": 1791861903.3482695,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_printhead",
+    "template": "tool:tool_connector"
+   },
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "mounts",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861903.3482769,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.17870405647406,
+     "tool.active_h": 0.12396644380357529,
+     "tool.filament_m": 0.06250999000000004,
+     "tool.jobs": 5.0,
+     "tool.mounted_h": 221.80164593405286,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.06116327113575406
+    }
+   },
+   "steps": [
+    "Look for bent or burnt pins",
+    "Check the latch and alignment pins"
+   ],
+   "title": "Inspect the tool connector pins and latch",
+   "tools_needed": "",
+   "type": "inspect"
+  },
   "t30cd2a2d": {
    "anchor": "completion",
    "asset": "machine:electronics",
@@ -377,6 +430,61 @@
     "Check the screw terminals for tightness"
    ],
    "title": "Inspect wiring, connectors and cable chains",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "t3ec08e73": {
+   "anchor": "completion",
+   "asset": "tool:BlockOne",
+   "created": 1791861903.3475592,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_printhead",
+    "template": "tool:hotend_check"
+   },
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 200,
+     "kind": "meter",
+     "lead": 20,
+     "meter": "active_h",
+     "scope": "tool"
+    },
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861903.347569,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.17870405647406,
+     "tool.active_h": 0.12396644380357529,
+     "tool.filament_m": 0.06250999000000004,
+     "tool.jobs": 5.0,
+     "tool.mounted_h": 221.80164593405286,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.06116327113575406
+    }
+   },
+   "steps": [],
+   "title": "Check the hotend screws, heater and thermistor wiring",
    "tools_needed": "",
    "type": "inspect"
   },
@@ -435,6 +543,57 @@
    "tools_needed": "",
    "type": "inspect"
   },
+  "t582d414e": {
+   "anchor": "completion",
+   "asset": "tool:BlockOne",
+   "created": 1791861903.3479326,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_printhead",
+    "template": "tool:extruder_gears"
+   },
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1000,
+     "kind": "meter",
+     "lead": 100,
+     "meter": "filament_m",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861903.347941,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.17870405647406,
+     "tool.active_h": 0.12396644380357529,
+     "tool.filament_m": 0.06250999000000004,
+     "tool.jobs": 5.0,
+     "tool.mounted_h": 221.80164593405286,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.06116327113575406
+    }
+   },
+   "steps": [
+    "Unload filament",
+    "Brush filament dust out of the gear teeth"
+   ],
+   "title": "Clean the extruder drive gears",
+   "tools_needed": "",
+   "type": "clean"
+  },
   "t61944cf8": {
    "anchor": "completion",
    "asset": "machine:motion_z",
@@ -490,6 +649,60 @@
    "title": "Check the Z belt drive (2:1 reduction)",
    "tools_needed": "",
    "type": "inspect"
+  },
+  "t6264912c": {
+   "anchor": "completion",
+   "asset": "tool:BlockOne",
+   "created": 1791861903.3470817,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_printhead",
+    "template": "tool:nozzle_replace"
+   },
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "parts": [
+    "Nozzle, same size and type"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 500,
+     "kind": "meter",
+     "lead": 50,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Hot-tighten with the right wrench; the heater block is hot.",
+   "start": {
+    "at": 1791861903.3470893,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.17870405647406,
+     "tool.active_h": 0.12396644380357529,
+     "tool.filament_m": 0.06250999000000004,
+     "tool.jobs": 5.0,
+     "tool.mounted_h": 221.80164593405286,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.06116327113575406
+    }
+   },
+   "steps": [
+    "Heat to printing temperature",
+    "Swap the nozzle and hot-tighten it",
+    "Re-check the Z offset"
+   ],
+   "title": "Replace the nozzle",
+   "tools_needed": "",
+   "type": "replace"
   },
   "t71c22e89": {
    "anchor": "completion",
@@ -651,6 +864,60 @@
    "title": "Inspect the machine after an emergency stop or shutdown",
    "tools_needed": "",
    "type": "inspect"
+  },
+  "t9df8a9df": {
+   "anchor": "completion",
+   "asset": "tool:BlockOne",
+   "created": 1791861903.3466477,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_printhead",
+    "template": "tool:nozzle_clean"
+   },
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "parts": [
+    "Brass brush"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "The nozzle is hot.",
+   "start": {
+    "at": 1791861903.346663,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.17870405647406,
+     "tool.active_h": 0.12396644380357529,
+     "tool.filament_m": 0.06250999000000004,
+     "tool.jobs": 5.0,
+     "tool.mounted_h": 221.80164593405286,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.06116327113575406
+    }
+   },
+   "steps": [
+    "Heat the nozzle",
+    "Brush the outside clean",
+    "Check the tip for wear or a widened hole"
+   ],
+   "title": "Clean the nozzle and check it for wear",
+   "tools_needed": "",
+   "type": "clean"
   },
   "taed874dc": {
    "anchor": "completion",
