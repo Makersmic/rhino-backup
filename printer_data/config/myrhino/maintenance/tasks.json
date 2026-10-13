@@ -1,0 +1,1674 @@
+{
+ "areas": [
+  {
+   "id": "motion_xy",
+   "label": "Motion X/Y"
+  },
+  {
+   "id": "motion_z",
+   "label": "Motion Z"
+  },
+  {
+   "id": "frame",
+   "label": "Frame and enclosure"
+  },
+  {
+   "id": "electronics",
+   "label": "Electronics"
+  },
+  {
+   "id": "umbilical",
+   "label": "Umbilical and tool connector"
+  },
+  {
+   "id": "other",
+   "label": "Other"
+  }
+ ],
+ "books": {
+  "b_hotwire": {
+   "assigned": [],
+   "description": "Wire tension and the connector.",
+   "for": "tool",
+   "name": "Hot wire cutter",
+   "origin": "starter",
+   "templates": [
+    "tool:hot_wire",
+    "tool:tool_connector"
+   ]
+  },
+  "b_knife": {
+   "assigned": [],
+   "description": "Blade and bearing.",
+   "for": "tool",
+   "name": "Drag knife",
+   "origin": "starter",
+   "templates": [
+    "tool:blade",
+    "tool:knife_bearing",
+    "tool:tool_connector"
+   ]
+  },
+  "b_laser": {
+   "assigned": [],
+   "description": "Lens, focus and module cooling.",
+   "for": "tool",
+   "name": "Laser module",
+   "origin": "starter",
+   "templates": [
+    "tool:laser_lens",
+    "tool:laser_focus",
+    "tool:laser_fan",
+    "tool:tool_connector"
+   ]
+  },
+  "b_needle": {
+   "assigned": [],
+   "description": "Needle or blade and the connector.",
+   "for": "tool",
+   "name": "Needle cutter",
+   "origin": "starter",
+   "templates": [
+    "tool:needle",
+    "tool:tool_connector"
+   ]
+  },
+  "b_passive": {
+   "assigned": [],
+   "description": "General checks for any unpowered tool you add.",
+   "for": "tool",
+   "name": "Passive tool",
+   "origin": "starter",
+   "templates": [
+    "tool:passive",
+    "tool:tool_connector"
+   ]
+  },
+  "b_powered": {
+   "assigned": [],
+   "description": "General checks for any powered tool you add.",
+   "for": "tool",
+   "name": "Powered tool",
+   "origin": "starter",
+   "templates": [
+    "tool:powered",
+    "tool:tool_connector"
+   ]
+  },
+  "b_printhead": {
+   "assigned": [],
+   "description": "Nozzle, hotend and extruder care for any print head.",
+   "for": "tool",
+   "name": "3D print head",
+   "origin": "starter",
+   "templates": [
+    "tool:nozzle_clean",
+    "tool:nozzle_replace",
+    "tool:hotend_check",
+    "tool:extruder_gears",
+    "tool:tool_connector"
+   ]
+  },
+  "b_rhino": {
+   "assigned": [
+    "machine"
+   ],
+   "description": "Belts, guides, leadscrews, frame, electronics and the umbilical. Assign it to the whole machine.",
+   "for": "machine",
+   "name": "Rhino motion system and frame",
+   "origin": "starter",
+   "templates": [
+    "machine:xy_belts",
+    "machine:xy_guides",
+    "machine:z_screws",
+    "machine:z_belt",
+    "machine:z_tilt",
+    "machine:frame",
+    "machine:dust",
+    "machine:wiring",
+    "machine:backup",
+    "machine:umbilical",
+    "machine:estop"
+   ]
+  },
+  "b_spindle": {
+   "assigned": [],
+   "description": "Collet, runout and chip clearing.",
+   "for": "tool",
+   "name": "CNC spindle",
+   "origin": "starter",
+   "templates": [
+    "tool:collet",
+    "tool:runout",
+    "tool:cnc_chips",
+    "tool:tool_connector"
+   ]
+  }
+ },
+ "priorities": {
+  "critical": "Critical",
+  "high": "High",
+  "low": "Low",
+  "normal": "Normal"
+ },
+ "settings": {
+  "boot_reminder": true
+ },
+ "statuses": {
+  "builtin": {
+   "done": {
+    "color": "grey",
+    "label": "Done"
+   },
+   "due_soon": {
+    "color": "amber",
+    "label": "Due soon"
+   },
+   "ok": {
+    "color": "teal",
+    "label": "Scheduled"
+   },
+   "overdue": {
+    "color": "red",
+    "label": "Overdue"
+   },
+   "paused": {
+    "color": "grey",
+    "label": "Paused"
+   },
+   "snoozed": {
+    "color": "indigo",
+    "label": "Snoozed"
+   }
+  },
+  "custom": [
+   {
+    "boot_prompt": false,
+    "clock": "none",
+    "color": "purple",
+    "expiry": "never",
+    "expiry_days": 0,
+    "help": "Parts are on order. Say what in the note. The task keeps ageing so it comes back as soon as you clear it.",
+    "id": "s_parts",
+    "label": "Pending - Waiting on parts",
+    "list": "own",
+    "log_option": true,
+    "note_required": true
+   },
+   {
+    "boot_prompt": true,
+    "clock": "none",
+    "color": "blue",
+    "expiry": "days",
+    "expiry_days": 3,
+    "help": "Started but not finished. Clears itself after 3 days if it is not logged.",
+    "id": "s_progress",
+    "label": "In progress",
+    "list": "due",
+    "log_option": true,
+    "note_required": false
+   },
+   {
+    "boot_prompt": false,
+    "clock": "pause",
+    "color": "orange",
+    "expiry": "meter",
+    "expiry_days": 0,
+    "help": "Waits for a planned stop. Its clock pauses until the machine runs again.",
+    "id": "s_defer",
+    "label": "Deferred to next shutdown",
+    "list": "upcoming",
+    "log_option": true,
+    "note_required": false
+   }
+  ]
+ },
+ "tasks": {
+  "t0c3055f9": {
+   "anchor": "completion",
+   "asset": "machine:motion_z",
+   "created": 1791861834.8846385,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:z_screws"
+   },
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "parts": [
+    "Leadscrew grease (PTFE or lithium)"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 250,
+     "kind": "meter",
+     "lead": 25,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8846445,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Clean the three leadscrews with a dry brush or cloth",
+    "Apply leadscrew grease sparingly along the thread",
+    "Run Z through its full travel",
+    "Check the nuts for backlash"
+   ],
+   "title": "Clean and lubricate the Z leadscrews",
+   "tools_needed": "",
+   "type": "lubricate"
+  },
+  "t10cd2254": {
+   "anchor": "completion",
+   "asset": "machine:electronics",
+   "created": 1791861834.8858728,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:dust"
+   },
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "parts": [
+    "Can of compressed air"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1000,
+     "kind": "meter",
+     "lead": 100,
+     "meter": "up_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "Unplug the machine and wait for the PSU to discharge before opening the bay.",
+   "start": {
+    "at": 1791861834.885879,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Power everything off and unplug it",
+    "Blow dust off the Octopus, the Pi and the PSU",
+    "Check every electronics fan spins freely"
+   ],
+   "title": "Clean dust from the electronics bay and fans",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "t30cd2a2d": {
+   "anchor": "completion",
+   "asset": "machine:electronics",
+   "created": 1791861834.8861365,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:wiring"
+   },
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "Machine powered off.",
+   "start": {
+    "at": 1791861834.8861425,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Look for rubbing, cracked insulation or loose crimps",
+    "Check the screw terminals for tightness"
+   ],
+   "title": "Inspect wiring, connectors and cable chains",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "t4659ad81": {
+   "anchor": "completion",
+   "asset": "machine:umbilical",
+   "created": 1791861834.8867402,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:umbilical"
+   },
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "parts": [
+    "Spare connector pins / housing"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "swaps",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8867464,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Look into both halves for bent, pushed-back or burnt pins",
+    "Check the latch holds firmly",
+    "Flex the cable along its length and watch the thermistor reading for drop-outs"
+   ],
+   "title": "Inspect the 21-pin umbilical connector and cable",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "t61944cf8": {
+   "anchor": "completion",
+   "asset": "machine:motion_z",
+   "created": 1791861834.8849568,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:z_belt"
+   },
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "parts": [
+    "Spare closed-loop belt for the Z drive"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 500,
+     "kind": "meter",
+     "lead": 50,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8849702,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Belt tension and condition",
+    "Pulley set screws on the motor and all three leadscrews",
+    "Turn the drive by hand: all three screws must move together",
+    "Run Z_TILT_ADJUST afterwards"
+   ],
+   "title": "Check the Z belt drive (2:1 reduction)",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "t71c22e89": {
+   "anchor": "completion",
+   "asset": "machine:motion_xy",
+   "created": 1791861834.8838813,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:xy_belts"
+   },
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "parts": [
+    "Spare GT2 belt (same width)"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 7,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.883898,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Motors off (M84) so the gantry moves freely",
+    "Both CoreXY belts at the same tension - pluck and compare the note",
+    "Look for frayed edges, missing teeth or a belt riding the pulley flange",
+    "Check every pulley and idler grub screw",
+    "Print or draw a square and measure the diagonals"
+   ],
+   "title": "Check and tension the X/Y belts",
+   "tools_needed": "",
+   "type": "adjust"
+  },
+  "t8a435bcd": {
+   "anchor": "completion",
+   "asset": "machine:motion_xy",
+   "created": 1791861834.884297,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:xy_guides"
+   },
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "parts": [
+    "Rail grease or light machine oil",
+    "Lint-free cloths"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 200,
+     "kind": "meter",
+     "lead": 20,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8843038,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Wipe old grease and dust off the rails",
+    "Apply a thin film of lubricant along the rails",
+    "Run each axis end to end a few times",
+    "Wipe off the excess"
+   ],
+   "title": "Clean and lubricate the X/Y linear guides",
+   "tools_needed": "",
+   "type": "lubricate"
+  },
+  "t9ab73eaf": {
+   "anchor": "completion",
+   "asset": "machine:other",
+   "created": 1791861834.887025,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:estop"
+   },
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "parts": [],
+   "priority": "high",
+   "remind_boot": true,
+   "rules": [
+    {
+     "event": true,
+     "every": 1,
+     "kind": "meter",
+     "lead": 0,
+     "meter": "shutdowns",
+     "scope": "machine"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.887031,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Find out why it stopped (Mainsail console, klippy.log)",
+    "Check nothing crashed into the bed or a clamp",
+    "Home and check the axes move freely before the next job"
+   ],
+   "title": "Inspect the machine after an emergency stop or shutdown",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "taed874dc": {
+   "anchor": "completion",
+   "asset": "machine:motion_z",
+   "created": 1791861834.885232,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:z_tilt"
+   },
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 5,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8852377,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Home all axes",
+    "Run Z_TILT_ADJUST",
+    "Print or cut a test and check it"
+   ],
+   "title": "Level the gantry (Z_TILT_ADJUST) and check the first layer",
+   "tools_needed": "",
+   "type": "calibrate"
+  },
+  "tb485152a": {
+   "anchor": "completion",
+   "asset": "machine:frame",
+   "created": 1791861834.885535,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:frame"
+   },
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.8855414,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Check the frame and gantry bolts",
+    "Check the frame is square and does not rock"
+   ],
+   "title": "Check frame bolts and squareness",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "tb84482e2": {
+   "anchor": "completion",
+   "asset": "machine:electronics",
+   "created": 1791861834.8864052,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_rhino",
+    "template": "machine:backup"
+   },
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "parts": [],
+   "priority": "low",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 3,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861834.886411,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.15967447055627
+    }
+   },
+   "steps": [
+    "Run BACKUP_CFG in the console",
+    "Check the commit arrived on GitHub"
+   ],
+   "title": "Back up the Klipper config (BACKUP_CFG)",
+   "tools_needed": "",
+   "type": "other"
+  }
+ },
+ "templates": {
+  "machine:backup": {
+   "anchor": "completion",
+   "area": "electronics",
+   "for": "machine",
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "low",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 3,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Run BACKUP_CFG in the console",
+    "Check the commit arrived on GitHub"
+   ],
+   "title": "Back up the Klipper config (BACKUP_CFG)",
+   "tools_needed": "",
+   "type": "other"
+  },
+  "machine:dust": {
+   "anchor": "completion",
+   "area": "electronics",
+   "for": "machine",
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Can of compressed air"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1000,
+     "kind": "meter",
+     "lead": 100,
+     "meter": "up_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "Unplug the machine and wait for the PSU to discharge before opening the bay.",
+   "steps": [
+    "Power everything off and unplug it",
+    "Blow dust off the Octopus, the Pi and the PSU",
+    "Check every electronics fan spins freely"
+   ],
+   "title": "Clean dust from the electronics bay and fans",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "machine:estop": {
+   "anchor": "completion",
+   "area": "other",
+   "for": "machine",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "high",
+   "remind_boot": true,
+   "rules": [
+    {
+     "event": true,
+     "every": 1,
+     "kind": "meter",
+     "lead": 0,
+     "meter": "shutdowns",
+     "scope": "machine"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Find out why it stopped (Mainsail console, klippy.log)",
+    "Check nothing crashed into the bed or a clamp",
+    "Home and check the axes move freely before the next job"
+   ],
+   "title": "Inspect the machine after an emergency stop or shutdown",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "machine:frame": {
+   "anchor": "completion",
+   "area": "frame",
+   "for": "machine",
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Check the frame and gantry bolts",
+    "Check the frame is square and does not rock"
+   ],
+   "title": "Check frame bolts and squareness",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "machine:umbilical": {
+   "anchor": "completion",
+   "area": "umbilical",
+   "for": "machine",
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare connector pins / housing"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "swaps",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Look into both halves for bent, pushed-back or burnt pins",
+    "Check the latch holds firmly",
+    "Flex the cable along its length and watch the thermistor reading for drop-outs"
+   ],
+   "title": "Inspect the 21-pin umbilical connector and cable",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "machine:wiring": {
+   "anchor": "completion",
+   "area": "electronics",
+   "for": "machine",
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "Machine powered off.",
+   "steps": [
+    "Look for rubbing, cracked insulation or loose crimps",
+    "Check the screw terminals for tightness"
+   ],
+   "title": "Inspect wiring, connectors and cable chains",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "machine:xy_belts": {
+   "anchor": "completion",
+   "area": "motion_xy",
+   "for": "machine",
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare GT2 belt (same width)"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 7,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Motors off (M84) so the gantry moves freely",
+    "Both CoreXY belts at the same tension - pluck and compare the note",
+    "Look for frayed edges, missing teeth or a belt riding the pulley flange",
+    "Check every pulley and idler grub screw",
+    "Print or draw a square and measure the diagonals"
+   ],
+   "title": "Check and tension the X/Y belts",
+   "tools_needed": "",
+   "type": "adjust"
+  },
+  "machine:xy_guides": {
+   "anchor": "completion",
+   "area": "motion_xy",
+   "for": "machine",
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Rail grease or light machine oil",
+    "Lint-free cloths"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 200,
+     "kind": "meter",
+     "lead": 20,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Wipe old grease and dust off the rails",
+    "Apply a thin film of lubricant along the rails",
+    "Run each axis end to end a few times",
+    "Wipe off the excess"
+   ],
+   "title": "Clean and lubricate the X/Y linear guides",
+   "tools_needed": "",
+   "type": "lubricate"
+  },
+  "machine:z_belt": {
+   "anchor": "completion",
+   "area": "motion_z",
+   "for": "machine",
+   "links": [],
+   "minutes": 30,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare closed-loop belt for the Z drive"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 500,
+     "kind": "meter",
+     "lead": 50,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Belt tension and condition",
+    "Pulley set screws on the motor and all three leadscrews",
+    "Turn the drive by hand: all three screws must move together",
+    "Run Z_TILT_ADJUST afterwards"
+   ],
+   "title": "Check the Z belt drive (2:1 reduction)",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "machine:z_screws": {
+   "anchor": "completion",
+   "area": "motion_z",
+   "for": "machine",
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Leadscrew grease (PTFE or lithium)"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 250,
+     "kind": "meter",
+     "lead": 25,
+     "meter": "prod_h",
+     "scope": "machine"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Clean the three leadscrews with a dry brush or cloth",
+    "Apply leadscrew grease sparingly along the thread",
+    "Run Z through its full travel",
+    "Check the nuts for backlash"
+   ],
+   "title": "Clean and lubricate the Z leadscrews",
+   "tools_needed": "",
+   "type": "lubricate"
+  },
+  "machine:z_tilt": {
+   "anchor": "completion",
+   "area": "motion_z",
+   "for": "machine",
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 5,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Home all axes",
+    "Run Z_TILT_ADJUST",
+    "Print or cut a test and check it"
+   ],
+   "title": "Level the gantry (Z_TILT_ADJUST) and check the first layer",
+   "tools_needed": "",
+   "type": "calibrate"
+  },
+  "tool:blade": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Replacement blades"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 20,
+     "kind": "meter",
+     "lead": 3,
+     "meter": "prod_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "The blade is sharp.",
+   "steps": [],
+   "title": "Inspect or replace the drag-knife blade",
+   "tools_needed": "",
+   "type": "replace"
+  },
+  "tool:cnc_chips": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 10,
+     "kind": "meter",
+     "lead": 2,
+     "meter": "jobs",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Clear chips from the spindle mount and Z axis",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:collet": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 20,
+     "kind": "meter",
+     "lead": 2,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Spindle relay off (Spindle_power) before touching the bit.",
+   "steps": [
+    "Remove the bit",
+    "Clean resin and chips out of the collet and nut"
+   ],
+   "title": "Clean the collet and collet nut",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:extruder_gears": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 1000,
+     "kind": "meter",
+     "lead": 100,
+     "meter": "filament_m",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Unload filament",
+    "Brush filament dust out of the gear teeth"
+   ],
+   "title": "Clean the extruder drive gears",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:hot_wire": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare nichrome wire"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 10,
+     "kind": "meter",
+     "lead": 2,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Wire off and cool.",
+   "steps": [],
+   "title": "Check the hot-wire tension and replace a kinked wire",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "tool:hotend_check": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 200,
+     "kind": "meter",
+     "lead": 20,
+     "meter": "active_h",
+     "scope": "tool"
+    },
+    {
+     "every": 6,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Check the hotend screws, heater and thermistor wiring",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "tool:knife_bearing": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "prod_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Clean the drag-knife bearing",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:laser_fan": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 25,
+     "kind": "meter",
+     "lead": 3,
+     "meter": "active_h",
+     "scope": "tool"
+    },
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 5,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Clean the laser module fan and air assist",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:laser_focus": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Laser goggles on for the test burn.",
+   "steps": [],
+   "title": "Check laser focus and alignment",
+   "tools_needed": "",
+   "type": "calibrate"
+  },
+  "tool:laser_lens": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Lens tissue",
+    "Isopropyl alcohol"
+   ],
+   "priority": "high",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 10,
+     "kind": "meter",
+     "lead": 2,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Laser off and LASER_INITIALIZE off before touching the module. Wear laser goggles for any test fire.",
+   "steps": [
+    "Laser and power rail off",
+    "Wipe the lens with lens tissue and isopropyl alcohol",
+    "Check for burn marks or pitting"
+   ],
+   "title": "Clean the laser lens / protective window",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:needle": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare needles / blades"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 20,
+     "kind": "meter",
+     "lead": 3,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Replace the needle or blade",
+   "tools_needed": "",
+   "type": "replace"
+  },
+  "tool:nozzle_clean": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Brass brush"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "The nozzle is hot.",
+   "steps": [
+    "Heat the nozzle",
+    "Brush the outside clean",
+    "Check the tip for wear or a widened hole"
+   ],
+   "title": "Clean the nozzle and check it for wear",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:nozzle_replace": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Nozzle, same size and type"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 500,
+     "kind": "meter",
+     "lead": 50,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Hot-tighten with the right wrench; the heater block is hot.",
+   "steps": [
+    "Heat to printing temperature",
+    "Swap the nozzle and hot-tighten it",
+    "Re-check the Z offset"
+   ],
+   "title": "Replace the nozzle",
+   "tools_needed": "",
+   "type": "replace"
+  },
+  "tool:passive": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Inspect and clean the tool",
+   "tools_needed": "",
+   "type": "clean"
+  },
+  "tool:powered": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "active_h",
+     "scope": "tool"
+    },
+    {
+     "every": 3,
+     "kind": "time",
+     "lead": 14,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Inspect the tool and its power cable",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "tool:runout": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 20,
+   "notes": "",
+   "origin": "starter",
+   "parts": [
+    "Spare collet set"
+   ],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 100,
+     "kind": "meter",
+     "lead": 10,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [],
+   "title": "Check spindle runout and bearing noise",
+   "tools_needed": "",
+   "type": "inspect"
+  },
+  "tool:tool_connector": {
+   "anchor": "completion",
+   "for": "tool",
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "origin": "starter",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "mounts",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "steps": [
+    "Look for bent or burnt pins",
+    "Check the latch and alignment pins"
+   ],
+   "title": "Inspect the tool connector pins and latch",
+   "tools_needed": "",
+   "type": "inspect"
+  }
+ },
+ "types": {
+  "adjust": "Adjust",
+  "calibrate": "Calibrate",
+  "clean": "Clean",
+  "inspect": "Inspect",
+  "lubricate": "Lubricate",
+  "other": "Other",
+  "replace": "Replace"
+ },
+ "version": 2
+}
