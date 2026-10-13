@@ -36,10 +36,10 @@
         "80"
     ],
     "cool_plate_temp": [
-        "55"
+        "65"
     ],
     "cool_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "default_filament_colour": [
         ""
@@ -57,10 +57,10 @@
         "0"
     ],
     "eng_plate_temp": [
-        "55"
+        "65"
     ],
     "eng_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "fan_cooling_layer_time": [
         "1"
@@ -171,10 +171,10 @@
         "7"
     ],
     "hot_plate_temp": [
-        "55"
+        "65"
     ],
     "hot_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "idle_temperature": [
         "0"
@@ -183,16 +183,16 @@
         "-1"
     ],
     "nozzle_temperature": [
-        "220"
+        "210"
     ],
     "nozzle_temperature_initial_layer": [
-        "220"
+        "210"
     ],
     "nozzle_temperature_range_high": [
         "230"
     ],
     "nozzle_temperature_range_low": [
-        "215"
+        "205"
     ],
     "overhang_fan_speed": [
         "55"
@@ -222,10 +222,10 @@
         "10"
     ],
     "supertack_plate_temp": [
-        "55"
+        "65"
     ],
     "supertack_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "support_material_interface_fan_speed": [
         "-1"
@@ -234,16 +234,16 @@
         "60"
     ],
     "textured_cool_plate_temp": [
-        "55"
+        "65"
     ],
     "textured_cool_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "textured_plate_temp": [
-        "55"
+        "65"
     ],
     "textured_plate_temp_initial_layer": [
-        "55"
+        "65"
     ],
     "compatible_printers": [
         "Rhino BlockOne 0.4"

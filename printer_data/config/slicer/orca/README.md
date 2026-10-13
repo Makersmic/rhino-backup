@@ -5,9 +5,9 @@ don't need any other Orca printer installed.
 
 | File | Orca tab | What it is |
 |---|---|---|
-| Rhino BlockOne 0.4.json | Printer | Bed 575 x 375, height 300, Klipper, start G-code START_JOB + CALCULATE_PA, end G-code END_PRINT |
+| Rhino BlockOne 0.4.json | Printer | Bed 550 x 375 (X endstop at 550), height 300, Klipper, start G-code START_JOB + CALCULATE_PA, end G-code END_PRINT |
 | 0.20mm Standard @Rhino BlockOne.json | Process | 0.2 mm layers, first layer 15 mm/s at 500 mm/s², walls/infill 60 mm/s, 5 walls, 10 % crosshatch |
-| Rhino PLA @BlockOne 0.4.json | Filament | 220 °C, bed 55 °C, flow 0.95 |
+| Rhino PLA @BlockOne 0.4.json | Filament | 210 °C, bed 65 °C, flow 0.95 |
 | Rhino PETG @BlockOne 0.4.json | Filament | 245 °C, bed 90 °C, flow 1.2, fan max 35 % |
 
 Bed temperature is the same for every plate type, so the plate picked in Orca doesn't change it.
@@ -22,7 +22,8 @@ Bed temperature is the same for every plate type, so the plate picked in Orca do
     M104 S0 ; Reset extruder temperature
     START_JOB TOOLHEAD=BlockOne MATERIAL=[filament_type] NOZZLE_SIZE=[nozzle_diameter] EXTRUDER=0
     ;
-    CALCULATE_PA BOWDEN_LENGTH=8.4 MATERIAL=[filament_type] LAYER_HEIGHT=[layer_height] NOZZLE_SIZE=[nozzle_diameter] PRINT_SPEED=[outer_wall_speed] FILAMENT_DIAMETER=[filament_diameter] LINE_WIDTH=[line_width]
+    CALCULATE_PA BOWDEN_LENGTH=5.9 MATERIAL=[filament_type] LAYER_HEIGHT=[layer_height] NOZZLE_SIZE=[nozzle_diameter] PRINT_SPEED=[outer_wall_speed] FILAMENT_DIAMETER=[filament_diameter] LINE_WIDTH=[line_width]
 
 The first-layer nozzle and bed temperatures come from the Rhino config (variables.cfg, set by PREHEAT);
-Orca only sends a bed temperature from layer 2.
+Orca only sends a bed temperature from layer 2. The Orca filament temperatures match variables.cfg (PLA 210/65,
+PETG 245/90) - if you change one, change the other.

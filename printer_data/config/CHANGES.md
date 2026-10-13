@@ -1,5 +1,111 @@
 # What changed
 
+## 1.4.0 - positions in one place, old test macros removed
+
+- **One place for positions: `myrhino/positions.cfg`.** Park (X551 Y381), tool swap spot (X100 Y100), safe height
+  (Z150), the Set Z zero window's lowest bed (Z380) and the prime line (X5 Y10, 120 mm) are set there, and every macro
+  reads them - cancel, pause (Mainsail's own park too: copied to `_CLIENT_VARIABLE` at start-up), swap, filament
+  change, Set Z zero, prime line. Change a number, `FIRMWARE_RESTART`. `RHINO_POSITIONS` lists them and checks them
+  against the travel limits; the same check runs at every start. The installer puts the file in place once and never
+  overwrites it. The numbers are the same as before - nothing moves differently.
+- The paper test's spot is worked out from `[safe_z_home]` + `[probe]` offset in printer.cfg (same 307.5, 208).
+- `tool_swap_park_x/y/z` in `variables.cfg` are no longer read (the installer says so if yours still has them - you
+  can delete those lines).
+- **Removed old test macros:** `home`, `ACTIVATE_SERVO`, `DEACTIVATE_SERVO`, `TEST_SERVO`, `HELLO_WORLD`, `Test_Card`,
+  `BACKUP_CONFIG`, `BACKUP_VARIABLES` and the shell commands only they used. The automatic backup after jobs over 2
+  hours now runs `BACKUP_CFG`. `SET_SERVO_ANGLE` stays: it moves SwitchFly's path servo.
+
+Check on the machine: **A7** (positions), and B5/C1 as usual.
+
+## 1.3.9 - portal accessibility, installer backups
+
+Nothing changes on the machine; the Klipper macros are the same as 1.3.8.
+- **Portal accessibility** (WCAG 2.1 AA, audit in `docs/accessibility.md`): every form field is announced by its
+  label; dialogs take keyboard focus, keep it, and give it back when closed; a Skip to content link; scrolling tables
+  work with the keyboard; charts are named, each bar announces its value; the current screen is marked in the
+  sidebar; readable contrast for badges, warnings, Delete buttons and links in both themes; Task Library fits a
+  320 px screen; less motion when the phone or PC asks for it. axe-core: 97 problems before, 0 after.
+- **Installer:** two installs in the same minute used to share one backup folder (the second copy went inside the
+  first, and an undo then restored the wrong thing). Each install now gets its own (`-2`, `-3` on the same minute);
+  the same for undo's keep-aside folder.
+- **Tests:** installer test on a fake Pi (`dev/test_install.py`), accessibility and keyboard checks in the browser
+  test. 570 checks.
+- **Docs:** `docs/accessibility.md`, `docs/tech-debt.md`.
+
+## 1.3.8 - fixes from the motion tests
+
+New tests (`dev/test_motion.py`, `dev/test_browser.py`, see `docs/testing.md`) follow where the bed and head go and run
+every macro and button against safety rules. What they found, now fixed:
+- **M1 - first layer at the paper-test height again.** The nozzle height saved by the paper test is applied while
+  `START_JOB` holds the file, and Klipper's resume put back the offsets from the moment it was held - so the file
+  printed with no nozzle height. `_RHINO_JOB_GO` now re-applies the offsets after the release. The paper test itself
+  is unchanged: run once per head, stored for that head.
+- **M2 - Z is only homed with a print head.** New `[gcode_macro G28]` (Klipper's own becomes `G28.1`): `G28`,
+  `G28 Z`, Mainsail's Home All/Home Z and the old `HOME` macro are refused with a laser, spindle, knife or added tool
+  mounted, and before the "which toolhead is mounted?" question is answered after a restart. `G28 X Y` always works.
+- **M3 - print-head-only commands.** `PURGE`, `PREHEAT` and `FILAMENT_CHANGE` stop unless a print head is mounted
+  (they heated the nozzle output, and `PURGE` raised the bed to Z5, with any tool). Filament change also needs the
+  printer homed before it heats.
+- **M4 - saved park height stays true.** Homing X/Y with Z not homed makes Klipper's `[safe_z_home]` lower the bed
+  10 mm first. The `G28` guard now adds that to the saved park height (and refuses if it would pass the end of
+  travel), so "Bed position - Yes" restores the right height.
+- **M5 - lifts stop at the end of Z travel.** CNC warm-up and cancel, knife cancel and filament change use the new
+  `_RHINO_LIFT`: same lift, never past Z400.
+- **M6 -** `PRIME_LINE` ends 2 mm above the bed instead of at first-layer height.
+- **M7 -** `ABORT_TOOL_SWAP` and filament-change Cancel say "nothing to cancel" instead of a Klipper error.
+- Manual: the wiring items at the end of *Still to check on the machine* were repeated after every list; now once.
+
+Check on the machine: **A6** (homing guard), **C4** (park height after a restart), **D2** (first layer).
+
+## 1.3.7 - review fixes and clearer pop-ups
+
+From a code review of 1.3.6:
+- **Work offsets no longer carry over between jobs.** A CNC or drag-knife job set an X/Y work zero (G54) that stayed
+  after the job ended or was cancelled, so the next print or laser job would have been shifted by it (and the cancel
+  park move could go out of range). `END_PRINT` and cancel now clear X/Y/Z offsets for every tool, `SET_PRINT` clears
+  X/Y before a print, and `LASER_JOB_SETUP` clears X/Y (laser files use machine X/Y).
+- **Park record cleared at once:** moving the bed below the park height in the Set Z zero window forgets the park
+  height straight away, instead of up to 5 s later - so a restart in that moment can't offer a stale height.
+
+Pop-up wording (Mainsail prompts), made consistent:
+- Sentence-case titles, no emoji or all-caps buttons; buttons say what they do ("Start the cut", "Set X/Y zero here",
+  "Cancel setup"); every checklist starts "Check before you start:"; no divider or blank lines.
+- Clearer errors and steps, e.g. "Toolhead not detected - the toolhead's thermistor (contacts 3-4) reads open. Push
+  the umbilical connector fully home, then check again."; the swap window numbers its steps and the confirm button
+  names the tool.
+- No commands changed - only the words. The manual uses the new button names.
+
+## 1.3.6 - Set Z zero by eye
+
+- **New `SET_Z_ZERO` window** for the LightSaber, HotJoe, DragKnife and tools you add (also a Mainsail button):
+  Bed up / Bed down 10, 1 and 0.1 mm, then **SET** - that bed height becomes G-code Z0. Nothing moves when you press
+  SET, and machine Z is never redefined, so Klipper's travel limits stay right. The window never lowers the bed past
+  Z 380 or raises it past position_min. With the LightSaber you set it at the focus point (focus-dot buttons are in
+  the window) and the job runs at Z0 with no extra offset.
+- All the job setups use it: `LASER_JOB_SETUP` (replaces the stored focus offset), `CNC_JOB_SETUP` (replaces the touch
+  plate and manual zero), `DRAGKNIFE_JOB_SETUP` and `TOOL_JOB_SETUP` (still adds the material's Z offset on top).
+- **Z after a restart:** the exact park height is now saved whenever the bed is parked. If Z isn't homed but the bed
+  was left parked, the setups ask "Is the bed still down where it was parked?" - **Yes** takes the saved height as Z
+  (`SET_KINEMATIC_POSITION`) and homes X/Y, then carries on where you were; **No** leaves Z unhomed. If the bed was
+  not left parked (a job was running), nothing is offered and Z must be homed with a print head, as before.
+  Needs `[force_move] enable_force_move: True`, added in `toolchanger.cfg`.
+- **Removed:** the 10 mm touch-plate option and `PROBE_Z_WORK_ZERO` - they used `G38.2`, which Klipper doesn't have.
+- **Fixed:** `G54` no longer uses `MOVE=1` (it moved the tool by the change in offset when a zero was set);
+  `SET_WORK_ZERO` and the CNC X/Y zero read the machine position, so an older offset can't leak into the new one;
+  `LASERHOME` no longer moves the bed up to Z20 toward the laser.
+- **Fixed:** choosing a laser, spindle, knife or added-tool material (`SET_TOOLHEAD`, or a `START_JOB` line in a job
+  file) no longer resets the Z offset, and a drag-knife job's start no longer sets it to 0 - either would have
+  wiped the Z zero you just set. The material `z_offset` values for the LightSaber, HotJoe and DragKnife are no longer
+  used.
+- Starter task "Check the Z belt drive" says 2:1. OrcaSlicer BlockOne profile: bowden length 5.9.
+
+## 1.3.5 - Orca profiles match the machine
+
+- Rhino PLA: 210 °C nozzle and 65 °C bed, the same as `PLA_0_4` in variables.cfg (was 220 / 55, so the bed dropped
+  to 55 °C from layer 2). Its temperature range now starts at 205 so Orca doesn't warn. PETG already matched (245 / 90).
+- Rhino BlockOne 0.4: printable width 550 mm (was 575), the X endstop position.
+- No macro or printer setting changed.
+
 ## 1.3.4 - OrcaSlicer profiles for BlockOne
 
 - New folder `slicer/orca/`: printer, process, PLA and PETG presets for BlockOne with the 0.4 mm nozzle, rebuilt from
