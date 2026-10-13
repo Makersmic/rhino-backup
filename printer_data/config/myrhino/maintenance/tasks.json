@@ -50,7 +50,9 @@
    ]
   },
   "b_laser": {
-   "assigned": [],
+   "assigned": [
+    "tool:LightSaber"
+   ],
    "description": "Lens, focus and module cooling.",
    "for": "tool",
    "name": "Laser module",
@@ -226,6 +228,61 @@
   ]
  },
  "tasks": {
+  "t02c3489f": {
+   "anchor": "completion",
+   "asset": "tool:LightSaber",
+   "created": 1791861928.250666,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_laser",
+    "template": "tool:laser_fan"
+   },
+   "links": [],
+   "minutes": 10,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 25,
+     "kind": "meter",
+     "lead": 3,
+     "meter": "active_h",
+     "scope": "tool"
+    },
+    {
+     "every": 1,
+     "kind": "time",
+     "lead": 5,
+     "lead_unit": "days",
+     "unit": "months"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861928.2506852,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.18601739485973,
+     "tool.active_h": 0.0,
+     "tool.filament_m": 0.0,
+     "tool.jobs": 0.0,
+     "tool.mounted_h": 0.0,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.0
+    }
+   },
+   "steps": [],
+   "title": "Clean the laser module fan and air assist",
+   "tools_needed": "",
+   "type": "clean"
+  },
   "t0c3055f9": {
    "anchor": "completion",
    "asset": "machine:motion_z",
@@ -336,6 +393,57 @@
    "title": "Clean dust from the electronics bay and fans",
    "tools_needed": "",
    "type": "clean"
+  },
+  "t1a3e8ca2": {
+   "anchor": "completion",
+   "asset": "tool:LightSaber",
+   "created": 1791861928.2512596,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_laser",
+    "template": "tool:tool_connector"
+   },
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "mounts",
+     "scope": "tool"
+    }
+   ],
+   "safety": "",
+   "start": {
+    "at": 1791861928.2512696,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.18601739485973,
+     "tool.active_h": 0.0,
+     "tool.filament_m": 0.0,
+     "tool.jobs": 0.0,
+     "tool.mounted_h": 0.0,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.0
+    }
+   },
+   "steps": [
+    "Look for bent or burnt pins",
+    "Check the latch and alignment pins"
+   ],
+   "title": "Inspect the tool connector pins and latch",
+   "tools_needed": "",
+   "type": "inspect"
   },
   "t28d9ce43": {
    "anchor": "completion",
@@ -1054,6 +1162,109 @@
    "title": "Back up the Klipper config (BACKUP_CFG)",
    "tools_needed": "",
    "type": "other"
+  },
+  "tc505d0f3": {
+   "anchor": "completion",
+   "asset": "tool:LightSaber",
+   "created": 1791861928.250132,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_laser",
+    "template": "tool:laser_focus"
+   },
+   "links": [],
+   "minutes": 15,
+   "notes": "",
+   "parts": [],
+   "priority": "normal",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 50,
+     "kind": "meter",
+     "lead": 5,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Laser goggles on for the test burn.",
+   "start": {
+    "at": 1791861928.2501414,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.18601739485973,
+     "tool.active_h": 0.0,
+     "tool.filament_m": 0.0,
+     "tool.jobs": 0.0,
+     "tool.mounted_h": 0.0,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.0
+    }
+   },
+   "steps": [],
+   "title": "Check laser focus and alignment",
+   "tools_needed": "",
+   "type": "calibrate"
+  },
+  "tc6f92eeb": {
+   "anchor": "completion",
+   "asset": "tool:LightSaber",
+   "created": 1791861928.2495444,
+   "enabled": true,
+   "last": null,
+   "link": {
+    "book": "b_laser",
+    "template": "tool:laser_lens"
+   },
+   "links": [],
+   "minutes": 5,
+   "notes": "",
+   "parts": [
+    "Lens tissue",
+    "Isopropyl alcohol"
+   ],
+   "priority": "high",
+   "remind_boot": true,
+   "rules": [
+    {
+     "every": 10,
+     "kind": "meter",
+     "lead": 2,
+     "meter": "active_h",
+     "scope": "tool"
+    }
+   ],
+   "safety": "Laser off and LASER_INITIALIZE off before touching the module. Wear laser goggles for any test fire.",
+   "start": {
+    "at": 1791861928.249562,
+    "meters": {
+     "machine.filament_m": 418.5194289190629,
+     "machine.jobs": 231.0,
+     "machine.prod_h": 93.96936376553434,
+     "machine.shutdowns": 3.0,
+     "machine.swaps": 0.0,
+     "machine.up_h": 241.18601739485973,
+     "tool.active_h": 0.0,
+     "tool.filament_m": 0.0,
+     "tool.jobs": 0.0,
+     "tool.mounted_h": 0.0,
+     "tool.mounts": 0.0,
+     "tool.prod_h": 0.0
+    }
+   },
+   "steps": [
+    "Laser and power rail off",
+    "Wipe the lens with lens tissue and isopropyl alcohol",
+    "Check for burn marks or pitting"
+   ],
+   "title": "Clean the laser lens / protective window",
+   "tools_needed": "",
+   "type": "clean"
   }
  },
  "templates": {
