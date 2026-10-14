@@ -235,15 +235,15 @@
  },
  "history_synced": 1791943790.97024,
  "imported_jobs": 226,
- "last_klippy": "ready",
+ "last_klippy": "shutdown",
  "last_tool": 1,
  "machine": {
   "filament_m": 418.56480792906285,
   "jobs": 234.0,
-  "prod_h": 94.03232175126665,
-  "shutdowns": 5.0,
+  "prod_h": 94.03532283599172,
+  "shutdowns": 6.0,
   "swaps": 0.0,
-  "up_h": 263.895741175547
+  "up_h": 263.89874226027206
  },
  "seen_jobs": [
   "000001",
@@ -483,12 +483,12 @@
  ],
  "tools": {
   "BlockOne": {
-   "active_h": 0.41613555861843937,
+   "active_h": 0.4191366433435014,
    "filament_m": 0.10788900000000011,
    "jobs": 8.0,
-   "mounted_h": 244.4575048935453,
+   "mounted_h": 244.46050597827036,
    "mounts": 0.0,
-   "prod_h": 0.12412125686804455
+   "prod_h": 0.12712234159310662
   }
  },
  "tracking_since": 1790991994.6586125,
