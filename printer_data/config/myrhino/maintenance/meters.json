@@ -235,15 +235,15 @@
  },
  "history_synced": 1791943489.095836,
  "imported_jobs": 226,
- "last_klippy": "ready",
+ "last_klippy": "shutdown",
  "last_tool": 1,
  "machine": {
   "filament_m": 418.56480792906285,
   "jobs": 233.0,
-  "prod_h": 93.99281034769274,
-  "shutdowns": 4.0,
+  "prod_h": 94.00158394205894,
+  "shutdowns": 5.0,
   "swaps": 0.0,
-  "up_h": 263.8168485099092
+  "up_h": 263.83001258227705
  },
  "seen_jobs": [
   "000001",
@@ -485,9 +485,9 @@
    "active_h": 0.3663923929135004,
    "filament_m": 0.10788900000000011,
    "jobs": 7.0,
-   "mounted_h": 244.38292234725816,
+   "mounted_h": 244.39608641962604,
    "mounts": 0.0,
-   "prod_h": 0.08460985329416065
+   "prod_h": 0.09338344766034022
   }
  },
  "tracking_since": 1790991994.6586125,
