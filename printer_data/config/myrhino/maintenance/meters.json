@@ -233,9 +233,9 @@
    }
   }
  },
- "history_synced": 1791942891.613433,
+ "history_synced": 1791943194.3357754,
  "imported_jobs": 226,
- "last_klippy": "shutdown",
+ "last_klippy": "ready",
  "last_tool": 1,
  "machine": {
   "filament_m": 418.5194289190629,
@@ -243,7 +243,7 @@
   "prod_h": 93.97229623054456,
   "shutdowns": 4.0,
   "swaps": 0.0,
-  "up_h": 263.66629322992577
+  "up_h": 263.7364464508176
  },
  "seen_jobs": [
   "000001",
@@ -484,7 +484,7 @@
    "active_h": 0.3122920442289777,
    "filament_m": 0.06250999000000004,
    "jobs": 6.0,
-   "mounted_h": 244.28641083214413,
+   "mounted_h": 244.30252028816673,
    "mounts": 0.0,
    "prod_h": 0.06409573614597322
   }
