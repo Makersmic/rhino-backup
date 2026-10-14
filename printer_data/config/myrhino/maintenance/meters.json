@@ -233,17 +233,17 @@
    }
   }
  },
- "history_synced": 1791943790.97024,
+ "history_synced": 1791944096.1825159,
  "imported_jobs": 226,
- "last_klippy": "shutdown",
+ "last_klippy": "ready",
  "last_tool": 1,
  "machine": {
-  "filament_m": 418.56480792906285,
-  "jobs": 234.0,
+  "filament_m": 418.66676446906285,
+  "jobs": 235.0,
   "prod_h": 94.03532283599172,
   "shutdowns": 6.0,
   "swaps": 0.0,
-  "up_h": 263.89874226027206
+  "up_h": 263.94837047616784
  },
  "seen_jobs": [
   "000001",
@@ -479,14 +479,15 @@
   "0000E7",
   "0000E8",
   "0000E9",
-  "0000EA"
+  "0000EA",
+  "0000EB"
  ],
  "tools": {
   "BlockOne": {
-   "active_h": 0.4191366433435014,
-   "filament_m": 0.10788900000000011,
-   "jobs": 8.0,
-   "mounted_h": 244.46050597827036,
+   "active_h": 0.4586454145775898,
+   "filament_m": 0.20984554000000044,
+   "jobs": 9.0,
+   "mounted_h": 244.5073296527107,
    "mounts": 0.0,
    "prod_h": 0.12712234159310662
   }
