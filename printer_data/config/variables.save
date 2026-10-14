@@ -1,7 +1,8 @@
 [Variables]
 current_tool = 1
 pause_state = 'none'
-rhino_z_safe = 1
+rhino_park_z = 600.0
+rhino_z_safe = 0
 rhino_zcal_blockone = -0.5
 set_material_bed_temp = 65
 set_material_extruder_index = 0
